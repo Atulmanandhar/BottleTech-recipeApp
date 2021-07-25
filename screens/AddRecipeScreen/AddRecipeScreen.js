@@ -19,7 +19,6 @@ import {
 import CustomTextInput from '../../components/CustomTextInput';
 import CustomButton from '../../components/CustomButton';
 import CustomPicker from '../../components/CustomPicker';
-import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {useDispatch} from 'react-redux';
 import {
@@ -28,7 +27,6 @@ import {
 } from '../../redux/actions/recipe';
 
 const INGREDIENT_UNITS = ['kg', 'gm', 'ltr', 'pcs', 'tbsp'];
-const API_URL = 'https://bottletechrecipeapp.azurewebsites.net/api';
 
 const AddRecipeScreen = ({navigation}) => {
   const theme = useTheme();
@@ -119,7 +117,7 @@ const AddRecipeScreen = ({navigation}) => {
     ingredients.forEach(ingredient => {
       if (!/\S/.test(ingredient.name) || !/\S/.test(ingredient.quantity)) {
         alert(
-          'Please fill out all the ingredient forms or or remove if uncessary fields are added ',
+          'Please fill out all the ingredient forms or or remove if unnecessary fields are added ',
         );
         return;
       }
@@ -127,7 +125,7 @@ const AddRecipeScreen = ({navigation}) => {
     steps.forEach(step => {
       if (!/\S/.test(step)) {
         alert(
-          'Please fill out all the steps field or remove if uncessary fields are added',
+          'Please fill out all the steps field or remove if unnecessary fields are added',
         );
         return;
       }
@@ -217,7 +215,7 @@ const AddRecipeScreen = ({navigation}) => {
               {key != 0 && (
                 <TouchableOpacity
                   onPress={deleteIngredientHandler.bind(this, key)}>
-                  <CustomText label={`Delete`} style={{color: '#db0029'}} />
+                  <CustomText label={`Delete`} style={styles.deleteText} />
                 </TouchableOpacity>
               )}
             </View>
@@ -262,7 +260,7 @@ const AddRecipeScreen = ({navigation}) => {
               <CustomText label={`Step ${key}:`} />
               {key != 0 && (
                 <TouchableOpacity onPress={deleteStepsHandler.bind(this, key)}>
-                  <CustomText label={`Delete`} style={{color: '#db0029'}} />
+                  <CustomText label={`Delete`} style={styles.deleteText} />
                 </TouchableOpacity>
               )}
             </View>
@@ -359,5 +357,6 @@ const styles = StyleSheet.create({
   addBtnText: {
     fontSize: Utils.FontSizes.small,
   },
+  deleteText: {color: '#db0029'},
   submitButton: {alignSelf: 'center', marginTop: Utils.Spacing.vs},
 });

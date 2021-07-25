@@ -8,4 +8,5 @@ export const apiCreateRecipe = data =>
       'content-type': 'multipart/form-data',
     },
   });
+
 export const apiGetRecipe = () => axios.get(`${API_URL}/recipe`);

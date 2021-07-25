@@ -1,8 +1,8 @@
 import {SWITCH_THEME} from './types';
 
-export const SwitchThemeHandler = theme => async dispatch => {
-  dispatch({
+export const SwitchThemeHandler = theme => {
+  return {
     type: SWITCH_THEME,
     theme: theme,
-  });
+  };
 };

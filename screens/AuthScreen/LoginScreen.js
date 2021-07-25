@@ -51,12 +51,7 @@ const LoginScreen = ({navigation}) => {
           value={toggleUser}
           label="Toggle User Status"
         />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: Utils.Spacing.vs / 2,
-          }}>
+        <View style={styles.userStatusView}>
           <CustomText label={`User Status`} />
           <CustomText label={userLoggedIn ? 'Logged in' : 'Logged Out'} />
         </View>
@@ -87,5 +82,10 @@ const styles = StyleSheet.create({
   buttonStyle: {
     marginVertical: Utils.Spacing.vs,
     alignSelf: 'center',
+  },
+  userStatusView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: Utils.Spacing.vs / 2,
   },
 });

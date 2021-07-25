@@ -27,6 +27,7 @@ export const getRecipeHandler =
     }
   };
 
+//payload = object of boolean values of onionFilter,capsicumFilter and saltFilter
 export const filterRecipeHandler = payload => {
   return {
     type: FILTER_RECIPE,

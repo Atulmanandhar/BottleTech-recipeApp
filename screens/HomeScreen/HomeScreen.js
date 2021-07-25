@@ -119,7 +119,6 @@ const HomeScreen = () => {
     alert(`Api call to ${searchText}`);
   };
 
-  const [someState, setSomeState] = useState(0);
   return (
     <ScreenWrapper>
       <Animated.View style={getAnimatedSearchStyle()}>

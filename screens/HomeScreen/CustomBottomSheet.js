@@ -55,7 +55,12 @@ export const InnerBottomSheetContent = (
       <CustomButton
         label="Apply Filter"
         onPress={submitFilter}
-        buttonStyle={styles.applyFilterButton}
+        buttonStyle={styles.centerSpacing}
+      />
+
+      <CustomText
+        label={'Note: OR Filtering technique is being used here.'}
+        style={styles.centerSpacing}
       />
     </View>
   );
@@ -79,7 +84,7 @@ const CustomBottomSheet = forwardRef((props, ref) => {
   return (
     <BottomSheet
       ref={ref}
-      snapPoints={[hp('60%'), 0]}
+      snapPoints={[hp('70%'), 0]}
       initialSnap={1}
       callbackNode={props.fall}
       enabledGestureInteraction={true}
@@ -134,5 +139,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   }),
-  applyFilterButton: {alignSelf: 'center', marginTop: Utils.Spacing.vs},
+  centerSpacing: {alignSelf: 'center', marginTop: Utils.Spacing.vs},
 });
