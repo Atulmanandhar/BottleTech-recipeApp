@@ -5,6 +5,7 @@ import {
   Dimensions,
   Animated,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import {CustomBottomMenuItem} from './CustomBottomMenuItem';
 import Utils from '../constants';
@@ -105,7 +106,7 @@ export default MyTabBar;
 
 const style = StyleSheet.create({
   tabContainer: theme => ({
-    height: 60,
+    height: Platform.OS === 'android' ? 60 : 70,
     shadowOffset: {
       width: 0,
       height: -1,
@@ -118,6 +119,7 @@ const style = StyleSheet.create({
     elevation: 10,
     position: 'absolute',
     bottom: 0,
+    paddingBottom: Platform.OS === 'android' ? 0 : 10,
   }),
   slider: {
     width: 10,

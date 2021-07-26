@@ -48,6 +48,7 @@ const CartScreen = () => {
             renderItem={renderItem}
             keyExtractor={item => item._id}
             ListFooterComponent={FooterSection}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       )}

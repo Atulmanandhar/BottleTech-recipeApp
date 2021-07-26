@@ -5,6 +5,8 @@ import {
   Image,
   View,
   TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import CustomText from '../../components/CustomText';
 import ScreenWrapper from '../../components/ScreenWrapper';
@@ -25,6 +27,7 @@ import {
   createRecipeHandler,
   getRecipeHandler,
 } from '../../redux/actions/recipe';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const INGREDIENT_UNITS = ['kg', 'gm', 'ltr', 'pcs', 'tbsp'];
 
@@ -36,7 +39,7 @@ const AddRecipeScreen = ({navigation}) => {
   const [imageErrorMsg, setImageErrorMsg] = useState(null);
   const [foodName, setFoodName] = useState('');
   const [ingredients, setIngredients] = useState([
-    {name: '', quantity: '', unit: 'gm'},
+    {name: '', quantity: '', unit: ''},
   ]);
   const [steps, setSteps] = useState(['']);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -64,7 +67,7 @@ const AddRecipeScreen = ({navigation}) => {
 
   const addIngredientHandler = () => {
     const _ingredients = [...ingredients];
-    _ingredients.push({name: '', quantity: '', unit: 'gm'});
+    _ingredients.push({name: '', quantity: '', unit: ''});
     setIngredients(_ingredients);
   };
 
@@ -104,18 +107,26 @@ const AddRecipeScreen = ({navigation}) => {
   };
 
   const submitHandler = async () => {
+    let errorCount = 0;
     // some simple validations
     //regex to test for empty string including whitespaces
     if (!/\S/.test(foodName)) {
+      errorCount += 1;
       alert('Enter Ingredient Name');
       return;
     }
     if (!!!imageResponse) {
+      errorCount += 1;
       alert('Please select an image');
       return;
     }
     ingredients.forEach(ingredient => {
-      if (!/\S/.test(ingredient.name) || !/\S/.test(ingredient.quantity)) {
+      if (
+        !/\S/.test(ingredient.name) ||
+        !/\S/.test(ingredient.quantity) ||
+        !/\S/.test(ingredient.unit)
+      ) {
+        errorCount += 1;
         alert(
           'Please fill out all the ingredient forms or or remove if unnecessary fields are added ',
         );
@@ -124,6 +135,7 @@ const AddRecipeScreen = ({navigation}) => {
     });
     steps.forEach(step => {
       if (!/\S/.test(step)) {
+        errorCount += 1;
         alert(
           'Please fill out all the steps field or remove if unnecessary fields are added',
         );
@@ -140,8 +152,10 @@ const AddRecipeScreen = ({navigation}) => {
       data.append('steps', step);
     });
 
-    setIsSubmitting(true);
-    dispatch(createRecipeHandler(data, handleCallback));
+    if (!errorCount > 0) {
+      setIsSubmitting(true);
+      dispatch(createRecipeHandler(data, handleCallback));
+    }
   };
 
   return (
@@ -155,11 +169,16 @@ const AddRecipeScreen = ({navigation}) => {
         </View>
       </TouchableOpacity>
       <Spinner visible={isSubmitting} overlayColor="rgba(0,0,0,0.6)" />
-      <ScrollView
+      <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         style={styles.screen}
         contentContainerStyle={styles.ScrollViewContent}
         showsVerticalScrollIndicator={false}>
+        {/* <ScrollView
+          keyboardShouldPersistTaps="handled"
+          style={styles.screen}
+          contentContainerStyle={styles.ScrollViewContent}
+          showsVerticalScrollIndicator={false}> */}
         <CustomText
           label={`Let's Create a recipe`}
           fontSize={Utils.FontSizes.large}
@@ -232,13 +251,20 @@ const AddRecipeScreen = ({navigation}) => {
                 onChangeText={text => ingredientsHandler(text, key, 'quantity')}
                 containerStyle={{width: wp('50%')}}
               />
-              <CustomPicker
+              <CustomTextInput
+                placeholder={'unit'}
+                keyboardType="default"
+                value={ingredient.unit}
+                onChangeText={text => ingredientsHandler(text, key, 'unit')}
+                containerStyle={{width: wp('30%')}}
+              />
+              {/* <CustomPicker
                 data={INGREDIENT_UNITS}
                 value={ingredient.unit}
                 setPickerDataHandler={itemValue => {
                   ingredientsHandler(itemValue, key, 'unit');
                 }}
-              />
+              /> */}
             </View>
           </View>
         ))}
@@ -284,7 +310,8 @@ const AddRecipeScreen = ({navigation}) => {
           onPress={submitHandler}
         />
         <View style={{marginBottom: 50}} />
-      </ScrollView>
+        {/* </ScrollView> */}
+      </KeyboardAwareScrollView>
     </ScreenWrapper>
   );
 };
@@ -302,7 +329,7 @@ const styles = StyleSheet.create({
   },
   absouluteBackButton: {
     position: 'absolute',
-    top: 10,
+    top: Platform.OS === 'android' ? 10 : 50,
     left: 10,
     zIndex: 1000,
   },

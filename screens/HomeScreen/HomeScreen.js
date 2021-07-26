@@ -1,5 +1,11 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {StyleSheet, Animated, View, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Animated,
+  View,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   widthPercentageToDP as wp,
@@ -80,7 +86,7 @@ const HomeScreen = () => {
   const getAnimatedSearchStyle = () => {
     return {
       position: 'absolute',
-      top: 0,
+      top: Platform.OS === 'android' ? 0 : 24,
       left: 0,
       right: 0,
       zIndex: isRefreshing ? -1000 : 1000,

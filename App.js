@@ -7,8 +7,8 @@ import {enableScreens} from 'react-native-screens';
 enableScreens();
 
 const App = () => {
-  // StatusBar.setBackgroundColor('black');
-  // StatusBar.setBarStyle('light-content');
+  StatusBar.setBackgroundColor('black');
+  StatusBar.setBarStyle('light-content');
   return (
     <Provider store={store}>
       <Routes />
